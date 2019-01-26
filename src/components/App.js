@@ -1,39 +1,54 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-
-
+import unsplash from '../api/unsplash';
+import ImageList from './ImageList';
 import SearchBar from './SearchBar';
 
 const marginTop = {
     marginTop: '10px',
 }
 
-const API_KEY = '614a64c32440450b250c3873584e28674c754a6c975a3f59e71d0679724833cb';
-const BASE_URL = `https://api.unsplash.com/`;
-
 class App extends Component {
     state = {
-        term: '',
+        images: [],
     }
 
-    onSearchSubmit = (searchTerm) => {
-        console.log(searchTerm)
+    // componentDidUpdate() {
+    //     console.log("UPDATED");
+    //     this.sendImages()
+    // }
 
-        axios.get(`${BASE_URL}/search/photos/?client_id=${API_KEY}`, {
+    onSearchSubmit = async (searchTerm) => {
+        const response = await unsplash.get('/search/photos', {
             params: { query: searchTerm }
-        }).then( (resp) => {
-            console.log(resp);
-        }).catch( (err) => {
-            console.log(err);
+        });
+        
+        this.setState({
+            images: response.data.results
         })
+        
+        // fetch(`${BASE_URL}/search/photos/?client_id=${API_KEY}&query=${ searchTerm }`,)
+        //     .then( response => response.json())
+        //     .catch( error => console.log('ERROR:', error))
+        //     .then( data => {
+        //         // console.log(data.results[0].urls.regular);
+        //         this.setState({ images: data.results })
+        //     });
+    }
 
+    sendImages() {
+        const { images } = this.state;
+        
+        images.map( (image) => {
+            // console.log("IMAGE:", image);
+            return this.state.images ? <ImageList imageURL = { image.urls.small }/> : null;
+        });
     }
 
     render() {
-        console.log('TERM:', this.state.term);
         return (
             <div className="ui container" style={ marginTop }>
                 <SearchBar onSubmit={ this.onSearchSubmit } />
+                Found: { this.state.images.length } images.
             </div>
         );
     }

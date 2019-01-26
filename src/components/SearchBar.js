@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 class SearchBar extends Component {
 
     // different ways to bind "this"
@@ -8,7 +7,6 @@ class SearchBar extends Component {
     state = {
         term: '',
     }
-
     // onInputChange(e) {
     //     console.log(e.target.value);
     // }
