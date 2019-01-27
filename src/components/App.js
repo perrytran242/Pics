@@ -12,19 +12,14 @@ class App extends Component {
         images: [],
     }
 
-    // componentDidUpdate() {
-    //     console.log("UPDATED");
-    //     this.sendImages()
-    // }
-
     onSearchSubmit = async (searchTerm) => {
         const response = await unsplash.get('/search/photos', {
             params: { query: searchTerm }
         });
-        
+
         this.setState({
-            images: response.data.results
-        })
+            images: response.data.results,
+        });
         
         // fetch(`${BASE_URL}/search/photos/?client_id=${API_KEY}&query=${ searchTerm }`,)
         //     .then( response => response.json())
@@ -35,20 +30,11 @@ class App extends Component {
         //     });
     }
 
-    sendImages() {
-        const { images } = this.state;
-        
-        images.map( (image) => {
-            // console.log("IMAGE:", image);
-            return this.state.images ? <ImageList imageURL = { image.urls.small }/> : null;
-        });
-    }
-
     render() {
         return (
-            <div className="ui container" style={ marginTop }>
+            <div className="ui container" style={ marginTop } >
                 <SearchBar onSubmit={ this.onSearchSubmit } />
-                Found: { this.state.images.length } images.
+                <ImageList altTag={this.state.term} images={this.state.images} />
             </div>
         );
     }

@@ -13,8 +13,10 @@ class SearchBar extends Component {
     // onFormSubmit: function() same thing as code on the bottom.
     onFormSubmit = (e) => {
         e.preventDefault();
-
         this.props.onSubmit(this.state.term);
+        this.setState({
+            term: '',
+        })
     }
 
     render() {
@@ -25,6 +27,7 @@ class SearchBar extends Component {
                         <label>Image Search</label>
                         <input 
                             // short form version of doing an event handler in one line
+                            // controlled element
                             onChange={ (e) => this.setState({term: e.target.value}) } 
                             value = { this.state.term }
                             type="text"
