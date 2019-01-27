@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 class SearchBar extends Component {
-
     // different ways to bind "this"
         // this.onFormSubmit = this.onFormSubmit.bind(this);
     state = {
